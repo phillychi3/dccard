@@ -6,8 +6,9 @@ class M_image:
         self.image = image
         self.draw = draw
         self.pastimage = pastimage
-        self.pos = args['pos'] if 'pos' in args else (0,0)
-        self.size = args['size'] if 'size' in args else (50,50)        
+        self.minheight = None
+        self.pos = args['pos']
+        self.size = args['size'] if 'size' in args else (50,50)
         
     def render(self):
         self.image.paste(self.pastimage.resize(self.size),self.pos)

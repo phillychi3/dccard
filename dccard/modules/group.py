@@ -1,21 +1,26 @@
 from PIL import Image, ImageDraw
 
-class Group():
+class Group:
 
     def __init__(self,image:Image,draw:ImageDraw,**args) -> None:
         self.image = image
         self.draw = draw
         self.background = None
-        self.frame = None
-        self.spacing = None
+        self.frame = None # 邊框
+        self.spacing = None # 間隔
+        self.minheight = None # 最小高度
         self.items = []
+        self.pos = args['pos']
 
     def add(self,item):
+        
         self.items.append(item)
     
     def remove(self,item):
         self.items.remove(item)
 
     def render(self):
+        if self.background:
+            self.draw.rectangle(self.background)
         for i in self.items:
             i.render()
