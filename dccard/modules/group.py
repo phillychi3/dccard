@@ -13,7 +13,7 @@ class Group:
         self.pos = args['pos']
 
     def add(self,item):
-        
+        item.group = self
         self.items.append(item)
     
     def remove(self,item):
