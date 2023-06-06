@@ -77,15 +77,10 @@ class Canvas:
                 else:
                     self.poss.append(None)
             for i,j in enumerate(self.allitems):
-                if self.poss[i] != None:  # noqa: E711
-                    j.pos = self.poss[i]
-                    if 'size' in j.__dict__ and j.size == AUTO:
-                        # 變更圖片大小
-                        # if i == len(self.allitems)-1:
-                            # j.size = 那格的高度與寬度
-                        j.size = (self.poss[i][2]-self.poss[i][0],self.poss[i][3]-self.poss[i][1])
-                            
-                j.render()
+                j.render({
+                    'spacing':self._spacing,
+                    'poss':self.poss[i],
+                })
 
         elif self._display == PROPORTION:
             """
@@ -113,10 +108,6 @@ class Canvas:
 
     def image(self,image: Union[Image.Image,io.BytesIO,str],**args) -> modules.M_image:
         self._argcheck(args)
-        if "http" in image:
-            image = Image.open(io.BytesIO(requests.get(image).content))
-        else:
-            image = Image.open(image)
         imgclass = modules.M_image(self._image,self._draw,image,**args)
         self.allitems.append(imgclass)
 
