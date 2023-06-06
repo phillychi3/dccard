@@ -19,12 +19,34 @@ class M_image:
         self.pos = args['pos']
         self.proportion = args['proportion']
         self.size = args['size'] if 'size' in args else AUTO
+        self.showmod = args['showmod'] if 'showmod' in args else "normal"
         
     def render(self,data):
         mainpos = data['poss']
         if self.size == AUTO:
-            if self.pastimage.width > self.pastimage.height:
-                self.size = zoom_extent(self.pastimage,"width",mainpos[2]-mainpos[0])
-            else:
-                self.size = zoom_extent(self.pastimage,"lenght",mainpos[3]-mainpos[1])
+            if self.showmod == "normal":
+                if self.pastimage.width > self.pastimage.height:
+                    self.size = zoom_extent(self.pastimage,"width",mainpos[2]-mainpos[0])
+                    if self.size[1] > mainpos[3]-mainpos[1]:
+                        self.pastimage = self.pastimage.resize(self.size)
+                        self.pastimage = self.pastimage.crop((0,0,self.pastimage.width,self.pastimage.height-(self.pastimage.height-(mainpos[3]-mainpos[1]))))
+                        self.size = self.pastimage.size
+                        
+                else:
+                    self.size = zoom_extent(self.pastimage,"height",mainpos[3]-mainpos[1])
+                    if self.size[0] > mainpos[2]-mainpos[0]:
+                        self.pastimage = self.pastimage.resize(self.size)
+                        self.pastimage = self.pastimage.crop((0,0,self.pastimage.width-(self.pastimage.width-(mainpos[2]-mainpos[0])),self.pastimage.height))
+                        self.size = self.pastimage.size
+
+            elif self.showmod == "fill":
+                self.size = (mainpos[2]-mainpos[0],mainpos[3]-mainpos[1])
+            elif self.showmod == "showall":
+                # 如果圖片比例大於區域比例，則以寬為準
+                if self.pastimage.width/self.pastimage.height > (mainpos[2]-mainpos[0])/(mainpos[3]-mainpos[1]):
+                    self.size = zoom_extent(self.pastimage,"width",mainpos[2]-mainpos[0])
+                else:
+                    self.size = zoom_extent(self.pastimage,"height",mainpos[3]-mainpos[1])
+
+                
         self.image.paste(self.pastimage.resize(self.size),(mainpos[0],mainpos[1]))

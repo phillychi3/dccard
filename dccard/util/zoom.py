@@ -7,9 +7,11 @@ def zoom_extent(image,where,extent):
     if extent<=0:
         raise ValueError("extent must be greater than 0")
     
-    if where == "lenght": 
-        return (extent,int(extent*image.width/image.height))
+    if where == "height": 
+        mult = image.height/extent
+        return (int(image.width/mult),extent)
         
     elif where == "width":
-        return (int(extent*image.height/image.width),extent)
+        mult = image.width/extent
+        return (extent,int(image.height/mult))
         
