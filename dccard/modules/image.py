@@ -11,7 +11,7 @@ class M_image:
         self.minheight = None
         self.group = None
         if type(pastimage) == str and "http" in pastimage:
-            self.pastimage = Image.open(io.BytesIO(requests.get(image).content))
+            self.pastimage = Image.open(io.BytesIO(requests.get(pastimage).content))
         elif Image.isImageType(pastimage):
             self.pastimage = pastimage
         else:
@@ -29,14 +29,14 @@ class M_image:
                     self.size = zoom_extent(self.pastimage,"width",mainpos[2]-mainpos[0])
                     if self.size[1] > mainpos[3]-mainpos[1]:
                         self.pastimage = self.pastimage.resize(self.size)
-                        self.pastimage = self.pastimage.crop((0,0,self.pastimage.width,self.pastimage.height-(self.pastimage.height-(mainpos[3]-mainpos[1]))))
+                        self.pastimage = self.pastimage.crop((0,0,self.pastimage.width,self.pastimage.height-(self.pastimage.height-(mainpos[3]-mainpos[1]))-data['spacing']))
                         self.size = self.pastimage.size
                         
                 else:
                     self.size = zoom_extent(self.pastimage,"height",mainpos[3]-mainpos[1])
                     if self.size[0] > mainpos[2]-mainpos[0]:
                         self.pastimage = self.pastimage.resize(self.size)
-                        self.pastimage = self.pastimage.crop((0,0,self.pastimage.width-(self.pastimage.width-(mainpos[2]-mainpos[0])),self.pastimage.height))
+                        self.pastimage = self.pastimage.crop((0,0,self.pastimage.width-(self.pastimage.width-(mainpos[2]-mainpos[0]))-data['spacing'],self.pastimage.height))
                         self.size = self.pastimage.size
 
             elif self.showmod == "fill":
