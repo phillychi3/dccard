@@ -7,7 +7,9 @@ class text:
         self.draw = draw
         self.minheight = None
         self.group = None
+        
         self.pos = args['pos']
+        self.proportion = args['proportion']
         self.textsize = args['size'] if 'size' in args else (50,50)
         self.font = args['font'] if 'font' in args else None
         

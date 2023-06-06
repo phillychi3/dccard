@@ -1,20 +1,23 @@
 from PIL import Image, ImageDraw, ImageFont
 import dccard.modules as modules
+from dccard.types import PROPORTION, FLEX, GRID , AUTO
 import io
 from typing import Union, Tuple, List
+import requests
 
 
 
 class Canvas:
 
-    def __init__(self,size:tuple=(100,100)) -> None:
+    def __init__(self,size:tuple=(100,100),display:Union[PROPORTION,FLEX,GRID]=None) -> None:
         self._size = size
         self._image = Image.new('RGBA',size)
         self._draw = ImageDraw.Draw(self._image)
         self._spacing = 2
+        self._display = display
         self._frame = None
         self.allitems = []
-        self.renditems = 0
+        self.efficientitems = 0
         self.poss = []
 
     def _argcheck(self,args:dict) -> None:
@@ -24,9 +27,78 @@ class Canvas:
             args['pos'] = args['pos']
         else:
             args['pos'] = None
+            self.efficientitems += 1
+        if 'proportion' in args:
+            args['proportion'] = args['proportion']
+        elif 'prop' in args:
+            args['proportion'] = args['prop']
+        else:
+            args['proportion'] = None
+
+    def flex(self,**args) -> None:
+        ...
+    
+    def grid(self,**args) -> None:
+        ...
 
     def render(self) -> Image.Image:
-        ...
+        """
+        排版模式:
+        - 有pos: 為獨立元件，不計算進排版
+        - 沒pos: 以間距為準
+        - 比例模式: 以比例為準，捨棄間距
+        - flex模式: css flex排版
+        - grid模式: css grid排版
+        """
+        if self._display == None:
+            """
+            模式: 沒有排版模式
+            所有元素等寬等高
+            """
+            allminheight = 0
+            for i in self.allitems:
+                if self.efficientitems == 0:
+                    break
+                if i.minheight != None:
+                    allminheight += i.minheight
+            oneitemheight = int((self._image.height-allminheight-(self._spacing*self.efficientitems))/self.efficientitems)  # noqa: E501
+            startpos = 0
+            for i in self.allitems:
+                if self.efficientitems == 0:
+                    break
+                if i.minheight == None and i.pos == None: # noqa: E711
+                    # 加入起始位置 結束位置
+                    # poss = (x1,y1,x2,y2)
+                    self.poss.append((self._spacing,startpos+self._spacing,self._image.width-self._spacing,startpos+oneitemheight+self._spacing))
+                    startpos += oneitemheight
+                elif i.minheight != None and i.pos == None:  # noqa: E711
+                    self.poss.append((self._spacing,startpos+self._spacing,self._image.width-self._spacing,startpos+i.minheight+self._spacing))  # noqa: E501
+                    startpos += i.minheight
+                else:
+                    self.poss.append(None)
+            for i,j in enumerate(self.allitems):
+                if self.poss[i] != None:  # noqa: E711
+                    j.pos = self.poss[i]
+                    if 'size' in j.__dict__ and j.size == AUTO:
+                        # 變更圖片大小
+                        # if i == len(self.allitems)-1:
+                            # j.size = 那格的高度與寬度
+                        j.size = (self.poss[i][2]-self.poss[i][0],self.poss[i][3]-self.poss[i][1])
+                            
+                j.render()
+
+        elif self._display == PROPORTION:
+            """
+            模式: 比例模式
+            如果沒有proporiton , prop = 1
+            """
+            ...
+
+
+
+        return self._image
+
+        
         
     
     def background(self,background: Union[str,io.BytesIO]) -> None:
@@ -41,6 +113,10 @@ class Canvas:
 
     def image(self,image: Union[Image.Image,io.BytesIO,str],**args) -> modules.M_image:
         self._argcheck(args)
+        if "http" in image:
+            image = Image.open(io.BytesIO(requests.get(image).content))
+        else:
+            image = Image.open(image)
         imgclass = modules.M_image(self._image,self._draw,image,**args)
         self.allitems.append(imgclass)
 

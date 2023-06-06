@@ -10,6 +10,8 @@ class Group:
         self.spacing = None # 間隔
         self.minheight = None # 最小高度
         self.items = []
+        self.group = None
+        self.proportion = args['proportion']
         self.pos = args['pos']
 
     def add(self,item):
