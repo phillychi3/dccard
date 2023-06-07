@@ -21,19 +21,28 @@ class Canvas:
         self.poss = []
 
     def _argcheck(self,args:dict) -> None:
+        # 如果位置是None，則計算進排版
         if 'position' in args:
             args['pos'] = args['position']
         elif 'pos' in args:
             args['pos'] = args['pos']
         else:
             args['pos'] = None
-            self.efficientitems += 1
+        # 如果是比例模式
         if 'proportion' in args:
             args['proportion'] = args['proportion']
         elif 'prop' in args:
             args['proportion'] = args['prop']
         else:
             args['proportion'] = None
+        # 如果已經設定minheight
+        if 'minheight' in args:
+            args['minheight'] = args['minheight']
+        else:
+            args['minheight'] = None
+        if args['pos'] == None and args['minheight'] == None:
+            self.efficientitems += 1
+
 
     def flex(self,**args) -> None:
         ...
@@ -69,10 +78,10 @@ class Canvas:
                 if i.minheight == None and i.pos == None: # noqa: E711
                     # 加入起始位置 結束位置
                     # poss = (x1,y1,x2,y2)
-                    self.poss.append((self._spacing,startpos+self._spacing,self._image.width-self._spacing,startpos+oneitemheight+self._spacing))
+                    self.poss.append((self._spacing,startpos+self._spacing,self._image.width-self._spacing,startpos+oneitemheight))
                     startpos += oneitemheight
                 elif i.minheight != None and i.pos == None:  # noqa: E711
-                    self.poss.append((self._spacing,startpos+self._spacing,self._image.width-self._spacing,startpos+i.minheight+self._spacing))  # noqa: E501
+                    self.poss.append((self._spacing,startpos+self._spacing,self._image.width-self._spacing,startpos+i.minheight))  # noqa: E501
                     startpos += i.minheight
                 else:
                     self.poss.append(None)

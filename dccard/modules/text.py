@@ -1,15 +1,9 @@
 from PIL import Image, ImageDraw
+from dccard.util.main_modules import main_modules
 
-
-class text:
+class Text(main_modules):
     def __init__(self,image:Image,draw:ImageDraw,**args) -> None:
-        self.image = image
-        self.draw = draw
-        self.minheight = None
-        self.group = None
-        
-        self.pos = args['pos']
-        self.proportion = args['proportion']
+        super().__init__(image,draw,**args)
         self.textsize = args['size'] if 'size' in args else (50,50)
         self.font = args['font'] if 'font' in args else None
         

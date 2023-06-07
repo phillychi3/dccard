@@ -1,23 +1,19 @@
 from PIL import Image, ImageDraw
 from dccard.types import AUTO
 from dccard.util.zoom import zoom_extent
+from dccard.util.main_modules import main_modules
 import io
 import requests
 
-class M_image:
+class M_image(main_modules):
     def __init__(self,image:Image,draw:ImageDraw,pastimage,**args) -> None:
-        self.image = image 
-        self.draw = draw
-        self.minheight = None
-        self.group = None
+        super().__init__(image,draw,**args)
         if type(pastimage) == str and "http" in pastimage:
             self.pastimage = Image.open(io.BytesIO(requests.get(pastimage).content))
         elif Image.isImageType(pastimage):
             self.pastimage = pastimage
         else:
             self.pastimage = Image.open(pastimage)
-        self.pos = args['pos']
-        self.proportion = args['proportion']
         self.size = args['size'] if 'size' in args else AUTO
         self.showmod = args['showmod'] if 'showmod' in args else "normal"
         
@@ -29,14 +25,14 @@ class M_image:
                     self.size = zoom_extent(self.pastimage,"width",mainpos[2]-mainpos[0])
                     if self.size[1] > mainpos[3]-mainpos[1]:
                         self.pastimage = self.pastimage.resize(self.size)
-                        self.pastimage = self.pastimage.crop((0,0,self.pastimage.width,self.pastimage.height-(self.pastimage.height-(mainpos[3]-mainpos[1]))-data['spacing']))
+                        self.pastimage = self.pastimage.crop((0,0,self.pastimage.width,self.pastimage.height-(self.pastimage.height-(mainpos[3]-mainpos[1]))))
                         self.size = self.pastimage.size
                         
                 else:
                     self.size = zoom_extent(self.pastimage,"height",mainpos[3]-mainpos[1])
                     if self.size[0] > mainpos[2]-mainpos[0]:
                         self.pastimage = self.pastimage.resize(self.size)
-                        self.pastimage = self.pastimage.crop((0,0,self.pastimage.width-(self.pastimage.width-(mainpos[2]-mainpos[0]))-data['spacing'],self.pastimage.height))
+                        self.pastimage = self.pastimage.crop((0,0,self.pastimage.width-(self.pastimage.width-(mainpos[2]-mainpos[0])),self.pastimage.height))
                         self.size = self.pastimage.size
 
             elif self.showmod == "fill":
