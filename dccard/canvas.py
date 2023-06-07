@@ -6,6 +6,15 @@ from typing import Union, Tuple, List
 import requests
 
 
+def modules_decorator(func):
+    def wrapper(self, *args, **kwargs):
+        if kwargs.get('group', False):
+            return func(self, *args, **kwargs)
+        else:
+            obj = func(self, *args, **kwargs)
+            self.allitems.append(obj)
+            return obj
+    return wrapper
 
 class Canvas:
 
@@ -40,7 +49,7 @@ class Canvas:
             args['minheight'] = args['minheight']
         else:
             args['minheight'] = None
-        if args['pos'] == None and args['minheight'] == None:
+        if args['pos'] == None and args['minheight'] == None and args.get('group',False) == False:
             self.efficientitems += 1
 
 
@@ -114,13 +123,13 @@ class Canvas:
             self._draw.rectangle([(0,0),self._size],fill=background)
         else:
             self._image.paste(background.resize(self._size))
-
-    def image(self,image: Union[Image.Image,io.BytesIO,str],**args) -> modules.M_image:
+    @modules_decorator
+    def image(self, image: Union[Image.Image, io.BytesIO, str], **args) -> modules.M_image:
         self._argcheck(args)
-        imgclass = modules.M_image(self._image,self._draw,image,**args)
-        self.allitems.append(imgclass)
-
+        imgclass = modules.M_image(self._image, self._draw, image, **args)
+        return imgclass
+    @modules_decorator
     def group(self,**args) -> modules.Group:
         self._argcheck(args)
         groupclass = modules.Group(self._image,self._draw,**args)
-        self.allitems.append(groupclass)
+        return groupclass

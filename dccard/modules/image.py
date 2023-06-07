@@ -6,7 +6,7 @@ import io
 import requests
 
 class M_image(main_modules):
-    def __init__(self,image:Image,draw:ImageDraw,pastimage,**args) -> None:
+    def __init__(self,image,draw,pastimage,**args) -> None:
         super().__init__(image,draw,**args)
         if type(pastimage) == str and "http" in pastimage:
             self.pastimage = Image.open(io.BytesIO(requests.get(pastimage).content))
