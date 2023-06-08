@@ -7,13 +7,13 @@ class Group(main_modules):
         super().__init__(image,draw,**args)
         self.background = None
         self.frame = None # 邊框
-        self.spacing = None # 間隔
-        self.display = args['display']
-        if self.display != (None or PROPORTION or FLEX or GRID):
-            raise TypeError("Display type must be 'None' or 'PROPORTION' or 'FLEX' or 'GRID'")
+        self.spacing = 1 # 間隔
+        self.display = args['display'] if 'display' in args else None
+        # if type(self.display) != None or type(self.display) != PROPORTION or type(self.display) != FLEX or type(self.display) != GRID:
+        #     raise TypeError("Display type must be 'None' or 'PROPORTION' or 'FLEX' or 'GRID'")
         self.direction = args['direction'] if args.get('direction',None) else ROW
-        self.groupheight = self.pos[3]-self.pos[1]
-        self.groupwidth = self.pos[2]-self.pos[0]
+        self.groupheight = 0
+        self.groupwidth = 0
         self.items = []
 
     def add(self,item):
@@ -23,9 +23,11 @@ class Group(main_modules):
     def remove(self,item):
         self.items.remove(item)
 
-    def render(self):
+    def render(self,data):
         if self.background:
             ...
+        self.groupheight = data['poss'][3]-data['poss'][1]
+        self.groupwidth = data['poss'][2]-data['poss'][0]
         if self.items == []:
             return
         if self.display == None:
@@ -37,19 +39,19 @@ class Group(main_modules):
                 for item in self.items:
                     if item.minwidth != None:
                         minwidth += item.minwidth
-                minwidth = self.groupwidth-minwidth-(self.spacing*len(self.items))/minwidth
-                flagpos = self.pos[0]
+                minwidth = (self.groupwidth-minwidth-(self.spacing*len(self.items)))/len(self.items)
+                flagpos = data['poss'][0]
                 for item in self.items:
                     if item.minwidth == None:
                         item.render({
                             'spacing':self.spacing,
-                            'poss':(flagpos,self.pos[1],flagpos+minwidth,self.pos[3])    
+                            'poss':(int(flagpos),int(data['poss'][1]),int(flagpos+minwidth),int(data['poss'][3]))    
                         })
                         flagpos += minwidth+self.spacing
                     else:
                         item.render({
                             'spacing':self.spacing,
-                            'poss':(flagpos,self.pos[1],flagpos+item.minwidth,self.pos[3])    
+                            'poss':(int(flagpos),int(data['poss'][1]),int(flagpos+item.minwidth),int(data['poss'][3]))    
                         })
                         flagpos += item.minwidth+self.spacing
 

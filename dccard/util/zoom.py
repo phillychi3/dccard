@@ -9,9 +9,9 @@ def zoom_extent(image,where,extent):
     
     if where == "height": 
         mult = image.height/extent
-        return (int(image.width/mult),extent)
+        return (int(image.width/mult),int(extent))
         
     elif where == "width":
         mult = image.width/extent
-        return (extent,int(image.height/mult))
+        return (int(extent),int(image.height/mult))
         

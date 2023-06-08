@@ -21,7 +21,7 @@ class M_image(main_modules):
         mainpos = data['poss']
         if self.size == AUTO:
             if self.showmod == "normal":
-                if self.pastimage.width > self.pastimage.height:
+                if self.pastimage.width > self.pastimage.height and mainpos[2]-mainpos[0] > mainpos[3]-mainpos[1]:
                     self.size = zoom_extent(self.pastimage,"width",mainpos[2]-mainpos[0])
                     if self.size[1] > mainpos[3]-mainpos[1]:
                         self.pastimage = self.pastimage.resize(self.size)
