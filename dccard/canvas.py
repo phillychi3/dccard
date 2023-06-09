@@ -133,3 +133,9 @@ class Canvas:
         self._argcheck(args)
         groupclass = modules.Group(self._image,self._draw,**args)
         return groupclass
+    @modules_decorator
+    def levelline(self,nowlevel:int,nextlevel:int,**args) -> modules.Levelline:
+        args['minheight'] = 50 if args.get('minheight',None) == None else args['minheight']
+        self._argcheck(args)
+        levellclass = modules.Levelline(self._image,self._draw,nowlevel,nextlevel,**args)
+        return levellclass
