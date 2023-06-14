@@ -93,6 +93,7 @@ class Canvas:
                     self.poss.append((self._spacing,startpos+self._spacing,self._image.width-self._spacing,startpos+i.minheight))  # noqa: E501
                     startpos += i.minheight
                 else:
+                    # 獨立物件
                     self.poss.append(None)
             for i,j in enumerate(self.allitems):
                 j.render({

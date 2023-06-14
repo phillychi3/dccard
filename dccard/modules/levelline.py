@@ -16,4 +16,7 @@ class Levelline(main_modules):
         # 等級底色
         self.draw.rectangle((mainpos[0],mainpos[1],mainpos[2],mainpos[3]),fill=(0,0,0,0))
         # 等級條red color
-        self.draw.rectangle((mainpos[0],mainpos[1],level,mainpos[3]),fill=(255,0,0,255))
+        if level <= mainpos[2]:
+            self.draw.rectangle((mainpos[0],mainpos[1],level+mainpos[0],mainpos[3]),fill=(255,0,0,255))    
+        else:
+            self.draw.rectangle((mainpos[0],mainpos[1],level,mainpos[3]),fill=(255,0,0,255))
