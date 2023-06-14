@@ -19,6 +19,8 @@ class Group(main_modules):
     def add(self,item):
         item.group = self
         self.items.append(item)
+        #詭異寫法
+        return self
     
     def remove(self,item):
         self.items.remove(item)
@@ -56,4 +58,22 @@ class Group(main_modules):
                         flagpos += item.minwidth+self.spacing
 
             elif self.direction == COLUMN:
-                ...
+                minheight = 0
+                for item in self.items:
+                    if item.minheight != None:
+                        minheight += item.minheight
+                minheight = (self.groupheight-minheight-(self.spacing*len(self.items)))/len(self.items)
+                flagpos = data['poss'][1]
+                for item in self.items:
+                    if item.minheight == None:
+                        item.render({
+                            'spacing':self.spacing,
+                            'poss':(int(data['poss'][0]),int(flagpos),int(data['poss'][2]),int(flagpos+minheight))    
+                        })
+                        flagpos += minheight+self.spacing
+                    else:
+                        item.render({
+                            'spacing':self.spacing,
+                            'poss':(int(data['poss'][0]),int(flagpos),int(data['poss'][2]),int(flagpos+item.minheight))    
+                        })
+                        flagpos += item.minheight+self.spacing
