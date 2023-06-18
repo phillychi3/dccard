@@ -4,7 +4,8 @@ from dccard.types import PROPORTION, FLEX, GRID , AUTO
 import io
 from typing import Union, Tuple, List
 import requests
-
+# from cotrace import auto_call_trace
+# auto_call_trace([__file__])
 
 def modules_decorator(func):
     def wrapper(self, *args, **kwargs):

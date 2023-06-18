@@ -16,6 +16,9 @@ class M_image(main_modules):
             self.pastimage = Image.open(pastimage)
         self.size = args['size'] if 'size' in args else AUTO
         self.showmod = args['showmod'] if 'showmod' in args else "normal"
+        self.mask = args['mask'] if 'mask' in args else None
+        if self.mask != None and self.showmod != "square":
+            raise Exception("mask can only be used in square mode")
         
     def render(self,data):
         mainpos = data['poss']
@@ -43,6 +46,10 @@ class M_image(main_modules):
                     self.size = zoom_extent(self.pastimage,"width",mainpos[2]-mainpos[0])
                 else:
                     self.size = zoom_extent(self.pastimage,"height",mainpos[3]-mainpos[1])
+            elif self.showmod == "square":
+                if self.pastimage.width > self.pastimage.height:
+                    self.size = (mainpos[3]-mainpos[1],mainpos[3]-mainpos[1])
+                else:
+                    self.size = (mainpos[2]-mainpos[0],mainpos[2]-mainpos[0])
 
-                
-        self.image.paste(self.pastimage.resize(self.size),(mainpos[0],mainpos[1]))
+        self.image.paste(self.pastimage.resize(self.size),(mainpos[0],mainpos[1]),mask=self.mask(self.size[0]) if self.mask else None)
