@@ -126,18 +126,23 @@ class Canvas:
         else:
             self._image.paste(background.resize(self._size))
     @modules_decorator
+    def group(self,**args) -> modules.Group:
+        self._argcheck(args)
+        groupclass = modules.Group(self._image,self._draw,**args)
+        return groupclass            
+    @modules_decorator
     def image(self, image: Union[Image.Image, io.BytesIO, str], **args) -> modules.M_image:
         self._argcheck(args)
         imgclass = modules.M_image(self._image, self._draw, image, **args)
         return imgclass
-    @modules_decorator
-    def group(self,**args) -> modules.Group:
-        self._argcheck(args)
-        groupclass = modules.Group(self._image,self._draw,**args)
-        return groupclass
     @modules_decorator
     def levelline(self,nowlevel:int,nextlevel:int,**args) -> modules.Levelline:
         args['minheight'] = 50 if args.get('minheight',None) == None else args['minheight']
         self._argcheck(args)
         levellclass = modules.Levelline(self._image,self._draw,nowlevel,nextlevel,**args)
         return levellclass
+    @modules_decorator
+    def text(self,text:str,**args) -> modules.Text:
+        self._argcheck(args)
+        textclass = modules.Text(self._image,self._draw,text,**args)
+        return textclass
