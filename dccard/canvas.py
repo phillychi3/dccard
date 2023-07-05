@@ -151,3 +151,9 @@ class Canvas:
         self._argcheck(args)
         spaceclass = modules.Space(self._image,self._draw,**args)
         return spaceclass
+    @modules_decorator
+    def add_template(self,template:modules.Template,**args) -> modules.Template:
+        self._argcheck(args)
+        template.image = self._image
+        template.draw = self._draw
+        return template
