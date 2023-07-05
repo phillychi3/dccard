@@ -146,3 +146,8 @@ class Canvas:
         self._argcheck(args)
         textclass = modules.Text(self._image,self._draw,text,**args)
         return textclass
+    @modules_decorator
+    def space(self,**args) -> modules.Space:
+        self._argcheck(args)
+        spaceclass = modules.Space(self._image,self._draw,**args)
+        return spaceclass
