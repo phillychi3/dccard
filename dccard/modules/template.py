@@ -1,5 +1,6 @@
 from dccard.util.main_modules import main_modules
 from dccard.modules.group import Group
+from dccard.types import COLUMN
 class metaclass(type):
     """
     read all user defining modules when init
@@ -20,6 +21,7 @@ class Template(main_modules,metaclass=metaclass):
     read all user defining modules when init
 
     use:
+
     class userclass(Template):
         def __init__(self,image1,image2):
         super().__init__()
@@ -39,7 +41,7 @@ class Template(main_modules,metaclass=metaclass):
 
     def render(self,data):
         # add item to group
-        group = Group(self.image,self.draw)
+        group = Group(self.image,self.draw,direction=COLUMN)
         for k,v in self.modules.items():
             group.add(v(self))
         group.render(data)

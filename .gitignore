@@ -2,5 +2,6 @@ build/
 dist/
 __pycache__
 tt*.py
-*.png
+test/*.png
+test/*.jpg
 *.ttf
