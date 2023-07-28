@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.1",
     author='phillychi3',
     author_email='phillychi3@gmail.com',
-    description='a discord card generator',
+    description='a card generator',
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/phillychi3/dccard",
