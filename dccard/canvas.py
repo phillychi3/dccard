@@ -158,7 +158,7 @@ class Canvas:
         template.draw = self._draw
         return template
     @modules_decorator
-    def showcase(self,images:List,row,**args) -> modules.Showcase:
+    def showcase(self,images:List[Union[Image.Image, io.BytesIO, str]],size,**args) -> modules.Showcase:
         self._argcheck(args)
-        showcaseclass = modules.Showcase(self._image,self._draw,images,row,**args)
+        showcaseclass = modules.Showcase(self._image,self._draw,images,size,**args)
         return showcaseclass
