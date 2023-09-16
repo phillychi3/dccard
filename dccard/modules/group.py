@@ -17,10 +17,17 @@ class Group(main_modules):
         self.items = []
 
     def add(self,item):
-        item.group = self
-        self.items.append(item)
-        #詭異寫法
-        return self
+        if type(item) == list:
+            for i in item:
+                i.group = self
+                self.items.append(i)
+            return self
+        else:
+            item.group = self
+            self.items.append(item)
+            #詭異寫法
+            return self
+
     
     def remove(self,item):
         self.items.remove(item)
@@ -36,7 +43,7 @@ class Group(main_modules):
             """
             等高模式
             """
-            if self.direction == ROW:
+            if self.direction == ROW: # 橫向
                 minwidth = 0
                 for item in self.items:
                     if item.minwidth != None:
@@ -57,7 +64,7 @@ class Group(main_modules):
                         })
                         flagpos += item.minwidth+self.spacing
 
-            elif self.direction == COLUMN:
+            elif self.direction == COLUMN: # 縱向
                 minheight = 0
                 for item in self.items:
                     if item.minheight != None:

@@ -39,9 +39,14 @@ class Template(main_modules,metaclass=metaclass):
     def __init__(self) -> None:
         super().__init__(None,None)
 
-    def render(self,data):
+    def render(self,data=None):
         # add item to group
         group = Group(self.image,self.draw,direction=COLUMN)
         for k,v in self.modules.items():
             group.add(v(self))
+        if data == None:
+            data = {
+                'spacing':2,
+                'poss':(2,2,self.image.width-2,self.image.height),
+            }
         group.render(data)
