@@ -1,6 +1,0 @@
-FLEX = "flex"
-GRID = "grid"
-PROPORTION = "proportion"
-AUTO = "auto"
-ROW = "row"
-COLUMN = "column"

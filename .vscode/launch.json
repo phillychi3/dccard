@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "Python: 目前的檔案",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
