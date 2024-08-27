@@ -1,3 +1,4 @@
+from PIL import ImageDraw
 class ComponentMeta(type):
     def __new__(cls, name, bases, attrs):
         for attr_name, attr_value in attrs.items():
@@ -55,7 +56,7 @@ class BaseComponent(metaclass=ComponentMeta):
             return self.parent.get_poss()
         return None
 
-    def get_draw(self):
+    def get_draw(self) -> ImageDraw.ImageDraw:
         if self.draw is not None:
             return self.draw
         elif self.parent:

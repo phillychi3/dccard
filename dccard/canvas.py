@@ -1,7 +1,8 @@
-from .modules import Text, Image, Group
+from .modules import Text, Image, Group, Levelline
 from typing import Union, Tuple
 from PIL import Image as Pilimage, ImageDraw
 from .type import LayoutType, Direction
+import io
 
 import logging
 
@@ -38,11 +39,14 @@ class Canvas:
     def group(self, direction=Direction.ROW):
         return Group(direction=direction)
 
-    def text(self, content):
+    def text(self, content:str):
         return Text(content)
 
-    def image(self, source):
-        return Image(self._image, source)
+    def image(self, image: Union[Pilimage.Image, io.BytesIO, str]):
+        return Image(self._image, image)
+
+    def levelline(self, nowlevel:int,nextlevel:int, linestyle):
+        return Levelline(nowlevel, nextlevel, linestyle)
 
     def get_spacing(self):
         return self._spacing
