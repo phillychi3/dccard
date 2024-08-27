@@ -1,5 +1,6 @@
 from ..Component import BaseComponent
 
+
 class Levelline(BaseComponent):
     def __init__(self, source):
         super().__init__()

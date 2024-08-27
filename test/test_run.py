@@ -1,5 +1,6 @@
 import sys
-sys.path.append('../dccard')
+
+sys.path.append("../dccard")
 from dccard.canvas import Canvas
 from dccard.type import Direction
 
@@ -19,7 +20,11 @@ col_group.add(canvas.text("Text 5").set_minheight(50).color("red"))
 col_group.add(canvas.text("Text 6").set_minheight(50).color("red"))
 
 
-
 canvas.add_component(canvas.text("Text 7").set_minheight(200).color("red"))
+canvas.add_component(
+    canvas.image(
+        r"C:\Users\phillychi3\Pictures\VRChat\2024-08\VRChat_2024-08-05_01-12-32.073_1920x1080.png"
+    ).showmode("normal")
+)
 result_image = canvas.render()
 result_image.show()
