@@ -1,6 +1,6 @@
 from ..Component import BaseComponent
 from PIL import ImageFont
-
+from typing import Any, Callable
 import logging
 
 logger = logging.getLogger(__name__)
@@ -18,18 +18,22 @@ class Text(BaseComponent):
 
     def font(self, font):
         self._font = font
+        return self
 
     def color(self, color):
         self._color = color
+        return self
 
     def size(self, size):
         self.textsize = size
+        return self
 
     def align(self, xalign=None, yalign=None):
         if xalign:
             self.xalign = xalign
         if yalign:
             self.yalign = yalign
+        return self
 
     def _render(self):
         logger.debug(f"Rendering text: {self.content}")

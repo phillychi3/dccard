@@ -19,6 +19,8 @@ col_group.add(canvas.text("Text 4").set_minheight(50).color("red"))
 col_group.add(canvas.text("Text 5").set_minheight(50).color("red"))
 col_group.add(canvas.text("Text 6").set_minheight(50).color("red"))
 
+canvas.text("Text tese").color("red").font("arial.ttf").set_minheight(50)
+
 
 canvas.add_component(canvas.text("Text 7").set_minheight(200).color("red"))
 result_image = canvas.render()

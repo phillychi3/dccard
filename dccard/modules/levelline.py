@@ -11,20 +11,25 @@ class Levelline(BaseComponent):
         self._bg_color = "black"
         self.linestype = linestyle if linestyle != None else 'rectangle'
 
-    def nextlevel(self, nextlevel):
+    def nextlevel(self, nextlevel: float) -> 'Levelline':
         self._nextlevel = nextlevel
+        return self
 
-    def nowlevel(self, nowlevel):
+    def nowlevel(self, nowlevel: float) -> 'Levelline':
         self._nowlevel = nowlevel
+        return self
 
-    def style(self, linestyle):
+    def style(self, linestyle: str) -> 'Levelline':
         self.linestype = linestyle
+        return self
 
-    def color(self, color):
+    def color(self, color: str) -> 'Levelline':
         self._color = color
+        return self
 
-    def bg_color(self, bg_color):
+    def bg_color(self, bg_color: str) -> 'Levelline':
         self._bg_color = bg_color
+        return self
 
     def _render(self):
         x1,y1,x2,y2 = self.get_poss()
@@ -44,4 +49,3 @@ class Levelline(BaseComponent):
                 draw.rounded_rectangle((x1,y1,level+x1,y2),fill=self._color,radius=10)
             else:
                 draw.rounded_rectangle((x1,y1,level,y2),fill=self._color,radius=10)
-

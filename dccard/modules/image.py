@@ -42,16 +42,19 @@ class Image(BaseComponent):
         if self._mask is not None and self.showmod != ShowMode.SQUARE:
             raise Exception("mask can only be used in square mode")
 
-    def showmode(self, showmod):
+    def showmode(self, showmod: str) -> 'Image':
         self.showmod = ShowMode(showmod)
+        return self
 
-    def size(self, size):
+    def size(self, size: tuple[int, int]) -> 'Image':
         self._size = size
+        return self
 
-    def mask(self, size):
+    def mask(self, mask: PilImage.Image, size: int) -> 'Image':
         if self.showmod != ShowMode.SQUARE:
             raise Exception("mask can only be used in square mode")
-        self._mask = self._mask.resize((size, size))
+        self._mask = mask
+        return self
 
     def _render(self):
         draw = self.get_draw()
