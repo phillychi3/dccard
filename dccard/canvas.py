@@ -1,4 +1,4 @@
-from .modules import Text, Image, Group, Levelline
+from .modules import Text, Image, Group, Levelline, Displaylist
 from typing import Union, Tuple
 from PIL import Image as Pilimage, ImageDraw
 from .type import LayoutType, Direction
@@ -27,7 +27,9 @@ class Canvas:
         self.root_group.poss = (0, 0, self._size[0], self._size[1])
         self.root_group.draw = self._draw
 
-    def add_component(self, component: Union[Text, Image, Group, Levelline]):
+    def add_component(
+        self, component: Union[Text, Image, Group, Levelline, Displaylist]
+    ):
         return self.root_group.add(component)
 
     def render(self) -> Pilimage.Image:
@@ -47,6 +49,11 @@ class Canvas:
 
     def levelline(self, nowlevel: int, nextlevel: int, linestyle: str) -> Levelline:
         return Levelline(nowlevel, nextlevel, linestyle)
+
+    def displaylist(
+        self, images: list[Pilimage.Image | str], size: tuple[int, int]
+    ) -> Displaylist:
+        return Displaylist(self._image, images, size)
 
     def get_spacing(self) -> int:
         return self._spacing
