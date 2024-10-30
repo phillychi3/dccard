@@ -1,10 +1,12 @@
-from .modules import Text, Image, Group, Levelline, Displaylist
-from typing import Union, Tuple
-from PIL import Image as Pilimage, ImageDraw
-from .type import LayoutType, Direction
 import io
-
 import logging
+from typing import Tuple, Union
+
+from PIL import Image as Pilimage
+from PIL import ImageDraw
+
+from .modules import Displaylist, Group, Image, Levelline, Text
+from .type import Direction, LayoutType
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)

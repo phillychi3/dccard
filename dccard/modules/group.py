@@ -1,6 +1,7 @@
+import logging
+
 from ..Component import BaseComponent
 from ..type import Direction
-import logging
 
 logger = logging.getLogger(__name__)
 

@@ -1,7 +1,8 @@
-from ..Component import BaseComponent
+import logging
+
 from PIL import Image as PilImage
 
-import logging
+from ..Component import BaseComponent
 
 logger = logging.getLogger(__name__)
 

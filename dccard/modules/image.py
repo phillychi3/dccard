@@ -1,9 +1,11 @@
-from ..Component import BaseComponent
-from PIL import Image as PilImage
 import io
-import requests
 import logging
 from enum import Enum
+
+import requests
+from PIL import Image as PilImage
+
+from ..Component import BaseComponent
 from ..util.zoom import zoom_extent
 
 logger = logging.getLogger(__name__)
@@ -42,15 +44,15 @@ class Image(BaseComponent):
         if self._mask is not None and self.showmod != ShowMode.SQUARE:
             raise Exception("mask can only be used in square mode")
 
-    def showmode(self, showmod: str) -> 'Image':
+    def showmode(self, showmod: str) -> "Image":
         self.showmod = ShowMode(showmod)
         return self
 
-    def size(self, size: tuple[int, int]) -> 'Image':
+    def size(self, size: tuple[int, int]) -> "Image":
         self._size = size
         return self
 
-    def mask(self, mask: PilImage.Image, size: int) -> 'Image':
+    def mask(self, mask: PilImage.Image, size: int) -> "Image":
         if self.showmod != ShowMode.SQUARE:
             raise Exception("mask can only be used in square mode")
         self._mask = mask

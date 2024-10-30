@@ -1,14 +1,13 @@
-from PIL import ImageDraw
-from typing import TypeVar, Type, Any, Dict, Tuple
+from typing import Any, Dict, Tuple, Type, TypeVar
 
-T = TypeVar('T', bound='BaseComponent')
+from PIL import ImageDraw
+
+T = TypeVar("T", bound="BaseComponent")
+
 
 class ComponentMeta(type):
     def __new__(
-        mcs: Any,
-        name: str,
-        bases: Tuple[type, ...],
-        attrs: Dict[str, Any]
+        mcs: Any, name: str, bases: Tuple[type, ...], attrs: Dict[str, Any]
     ) -> Type[T]:
         for attr_name, attr_value in attrs.items():
             if callable(attr_value) and not attr_name.startswith("__"):
@@ -20,6 +19,7 @@ class ComponentMeta(type):
         def wrapper(self: T, *args: Any, **kwargs: Any) -> T:
             result = func(self, *args, **kwargs)
             return self if result is None else result
+
         return wrapper
 
 

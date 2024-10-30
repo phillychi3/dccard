@@ -1,5 +1,6 @@
-from PIL import Image
 import os
+
+from PIL import Image
 
 path = os.path.dirname(os.path.abspath(__file__))
 

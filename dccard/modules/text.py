@@ -1,7 +1,9 @@
-from ..Component import BaseComponent
-from PIL import ImageFont
-from typing import Any, Callable
 import logging
+from typing import Any, Callable
+
+from PIL import ImageFont
+
+from ..Component import BaseComponent
 
 logger = logging.getLogger(__name__)
 
