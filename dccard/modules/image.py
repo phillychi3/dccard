@@ -125,3 +125,9 @@ class Image(BaseComponent):
             (mainpos[0], mainpos[1]),
             mask=self._mask(self._size[0]) if self._mask else None,
         )
+
+        if self.get_debug():
+            draw = self.get_draw()
+            if draw:
+                x1, y1, x2, y2 = poss
+                draw.rectangle([x1, y1, x2 - 1, y2 - 1], outline=(255, 200, 0), width=1)

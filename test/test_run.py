@@ -24,10 +24,10 @@ col_group.add(canvas.text("Text 6").set_minheight(50).color("red"))
 canvas.text("Text tese").color("red").font("arial.ttf").set_minheight(50)
 
 image1 = Image.open(
-    "/Users/phillychi3/Desktop/VRChat/2024-08/VRChat_2024-08-01_21-39-43.124_1920x1080.png"
+    "C:\\Users\\whitecloud\\Pictures\\VRChat\\2024-08\\VRChat_2024-08-01_21-39-43.124_1920x1080.png"
 )
 image2 = Image.open(
-    "/Users/phillychi3/Desktop/VRChat/2024-08/VRChat_2024-08-01_21-39-48.289_1920x1080.png"
+    "C:\\Users\\whitecloud\\Pictures\\VRChat\\2024-08\\VRChat_2024-08-01_21-39-48.289_1920x1080.png"
 )
 canvas.add_component(canvas.text("Text 7").set_minheight(200).color("red"))
 canvas.add_component(

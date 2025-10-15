@@ -34,6 +34,8 @@ class BaseComponent(metaclass=ComponentMeta):
         self.spacing = None
         self.poss = None
         self.draw = None
+        self.align_self = None
+        self.debug = None
 
     def set_pos(self: T, pos) -> T:
         self.pos = pos
@@ -53,6 +55,29 @@ class BaseComponent(metaclass=ComponentMeta):
 
     def set_parent(self: T, parent) -> T:
         self.parent = parent
+        return self
+
+    def position(self: T, align) -> T:
+        """
+        設置元素在容器中的位置
+        align: "start"/"top"/"left" - 靠上/左對齊
+               "center"/"middle" - 居中對齊
+               "end"/"bottom"/"right" - 靠下/右對齊
+               "stretch" - 拉伸填充（默認）
+        """
+
+        align_map = {
+            "start": "start",
+            "top": "start",
+            "left": "start",
+            "center": "center",
+            "middle": "center",
+            "end": "end",
+            "bottom": "end",
+            "right": "end",
+            "stretch": "stretch",
+        }
+        self.align_self = align_map.get(align.lower(), "stretch")
         return self
 
     def get_spacing(self):
@@ -75,6 +100,19 @@ class BaseComponent(metaclass=ComponentMeta):
         elif self.parent:
             return self.parent.get_draw()
         raise ValueError("No draw object found")
+
+    def get_default_font(self):
+        if self.parent:
+            return self.parent.get_default_font()
+        return None
+
+    def get_debug(self) -> bool:
+        """獲取 debug 模式狀態"""
+        if self.debug is not None:
+            return self.debug
+        elif self.parent:
+            return self.parent.get_debug()
+        return False
 
     def render(self):
         self._render()

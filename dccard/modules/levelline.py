@@ -33,8 +33,8 @@ class Levelline(BaseComponent):
 
     def _render(self):
         x1, y1, x2, y2 = self.get_poss()
-        next = self.nextlevel / (x2 - x1)
-        level = round(self.nowlevel / next)
+        next = self._nextlevel / (x2 - x1)
+        level = round(self._nowlevel / next)
         draw = self.get_draw()
         if self.linestype == "rectangle":
             # 等級底色
