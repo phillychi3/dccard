@@ -59,6 +59,7 @@ classifiers = [
 dependencies = ["pillow", "requests"]
 dynamic = ["version"]
 
+
 [project.urls]
 Repository = "https://github.com/phillychi3/dccard.git"
 
