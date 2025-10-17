@@ -28,7 +28,7 @@ class Image(BaseComponent):
         self._image = image
         if isinstance(source, str) and "http" in source:
             self.pastimage = PilImage.open(io.BytesIO(requests.get(source).content))
-        elif PilImage.isImageType(source):
+        elif isinstance(source, PilImage.Image):
             self.pastimage = source
         else:
             self.pastimage = PilImage.open(source)
@@ -50,6 +50,10 @@ class Image(BaseComponent):
 
     def size(self, size: tuple[int, int]) -> "Image":
         self._size = size
+        self.minwidth = size[0]
+        self.minheight = size[1]
+        self.width = size[0]
+        self.height = size[1]
         return self
 
     def mask(self, mask: PilImage.Image, size: int) -> "Image":
@@ -120,9 +124,23 @@ class Image(BaseComponent):
         print(self._size)
         resized_image = self.pastimage.resize(self._size)
 
+        # Calculate paste position for centering
+        container_width = x2 - x1
+        container_height = y2 - y1
+        image_width, image_height = self._size
+
+        paste_x = mainpos[0]
+        paste_y = mainpos[1]
+
+        if hasattr(self, 'align_self') and self.align_self == 'center':
+            if image_width < container_width:
+                paste_x = mainpos[0] + (container_width - image_width) // 2
+            if image_height < container_height:
+                paste_y = mainpos[1] + (container_height - image_height) // 2
+
         self._image.paste(
             resized_image,
-            (mainpos[0], mainpos[1]),
+            (paste_x, paste_y),
             mask=self._mask(self._size[0]) if self._mask else None,
         )
 
