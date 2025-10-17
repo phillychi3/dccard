@@ -1,4 +1,6 @@
-"""Tests for image positioning functionality."""
+import sys
+
+sys.path.append("../dccard")
 import io
 
 from PIL import Image as PilImage
